@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">LearnSQLite</string>
+    <string name="select">查询</string>
+    <string name="update">修改</string>
+    <string name="delete">删除</string>
+    <string name="add">增加</string>
+</resources>
