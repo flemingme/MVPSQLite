@@ -12,5 +12,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityCreate() {
         setContentView(R.layout.fragment_main);
+        
     }
 }
