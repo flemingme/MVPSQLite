@@ -1,8 +1,10 @@
-package com.fleming.exmaple.learnsqlite;
+package com.fleming.exmaple.learnsqlite.local;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.fleming.exmaple.learnsqlite.base.Constants;
 
 /**
  * DBHelper

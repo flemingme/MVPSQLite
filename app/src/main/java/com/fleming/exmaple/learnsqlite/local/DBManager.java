@@ -1,10 +1,12 @@
-package com.fleming.exmaple.learnsqlite;
+package com.fleming.exmaple.learnsqlite.local;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
+
+import com.fleming.exmaple.learnsqlite.base.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +38,6 @@ public class DBManager implements DBOperateMethods {
         }
     }
 
-
     @Override
     public boolean insert(User user) {
         ContentValues values = new ContentValues();
@@ -45,16 +46,26 @@ public class DBManager implements DBOperateMethods {
         final SQLiteDatabase db = mHelper.getWritableDatabase();
 
         long _id = db.insert(Constants.TABLE_NAME, null, values);
+
+        db.close();
+
         return _id > 0;
     }
 
     @Override
     public boolean delete(int userId) {
-        final String whereClause = Constants.UESR_ID + "=?";
-        final String[] whereArgs = new String[]{String.valueOf(userId)};
+        final String selection = Constants.UESR_ID + "=?";
+        final String[] selectionArgs = new String[]{String.valueOf(userId)};
         final SQLiteDatabase db = mHelper.getWritableDatabase();
+        Cursor query = mHelper.getReadableDatabase().query(Constants.TABLE_NAME, null, selection, selectionArgs, null, null, null);
+        int _id = 0;
+        if (query.getCount() > 0) {
+            _id = db.delete(Constants.TABLE_NAME, selection, selectionArgs);
+        }
 
-        int _id = db.delete(Constants.TABLE_NAME, whereClause, whereArgs);
+        query.close();
+        db.close();
+
         return _id > 0;
     }
 
@@ -73,7 +84,10 @@ public class DBManager implements DBOperateMethods {
         if (query.getCount() > 0) {
             _id = db.update(Constants.TABLE_NAME, values, selection, selectionArgs);
         }
+
         query.close();
+        db.close();
+
         return _id > 0;
     }
 
@@ -92,7 +106,10 @@ public class DBManager implements DBOperateMethods {
             int age = cursor.getInt(cursor.getColumnIndex(Constants.USER_AGE));
             user = new User(_id, name, age);
         }
+
         cursor.close();
+        db.close();
+
         return user;
     }
 
@@ -109,15 +126,30 @@ public class DBManager implements DBOperateMethods {
             list.add(new User(_id, name, age));
             cursor.moveToNext();
         }
+
         cursor.close();
+        db.close();
+
         return list;
     }
 
     @Override
-    public void release() {
+    public boolean release() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
         if (db.isOpen()) {
             db.close();
+            return true;
         }
+        return false;
+    }
+
+    @Override
+    public boolean deleteAll() {
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        int _id = db.delete(Constants.TABLE_NAME, null, null);
+
+        db.close();
+
+        return _id > 0;
     }
 }

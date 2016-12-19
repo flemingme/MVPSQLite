@@ -1,4 +1,4 @@
-package com.fleming.exmaple.learnsqlite;
+package com.fleming.exmaple.learnsqlite.local;
 
 import java.util.List;
 
@@ -19,5 +19,7 @@ public interface DBOperateMethods {
 
     List<User> selectAll();
 
-    void release();
+    boolean release();
+
+    boolean deleteAll();
 }

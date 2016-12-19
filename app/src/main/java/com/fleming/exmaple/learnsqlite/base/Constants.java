@@ -1,4 +1,4 @@
-package com.fleming.exmaple.learnsqlite;
+package com.fleming.exmaple.learnsqlite.base;
 
 /**
  * Created by Fleming on 2016/12/2.
