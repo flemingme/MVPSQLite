@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.fleming.exmaple.learnsqlite.base.Constants;
-
 /**
  * DBHelper
  * Created by Fleming on 2016/11/30.
@@ -21,17 +19,17 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE " + Constants.TABLE_NAME + "( "
-                + Constants.UESR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-                + Constants.USER_NAME + " TEXT, "
-                + Constants.USER_AGE +" INTEGER );";
+        String sql = "CREATE TABLE " + DBContract.UserEntity.TABLE_NAME + "( "
+                + DBContract.UserEntity.COLUMN_NAME_UESR_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                + DBContract.UserEntity.COLUMN_NAME_USER_NAME + " TEXT, "
+                + DBContract.UserEntity.COLUMN_NAME_USER_AGE +" INTEGER );";
         db.execSQL(sql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (newVersion > oldVersion) {
-            db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + DBContract.UserEntity.TABLE_NAME);
             onCreate(db);
         }
     }
