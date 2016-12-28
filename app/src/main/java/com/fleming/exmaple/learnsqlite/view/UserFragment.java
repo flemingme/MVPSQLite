@@ -1,5 +1,6 @@
 package com.fleming.exmaple.learnsqlite.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -7,8 +8,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,11 +22,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.fleming.exmaple.learnsqlite.R;
-import com.fleming.exmaple.learnsqlite.adapter.DefaultItemDecoration;
+import com.fleming.exmaple.learnsqlite.adapter.DividerDecoration;
+import com.fleming.exmaple.learnsqlite.adapter.ItemTouchCallback;
+import com.fleming.exmaple.learnsqlite.adapter.OnStartDragListener;
 import com.fleming.exmaple.learnsqlite.adapter.UserAdapter;
 import com.fleming.exmaple.learnsqlite.contract.UserContract;
 import com.fleming.exmaple.learnsqlite.local.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,7 +41,7 @@ import butterknife.ButterKnife;
  */
 
 public class UserFragment extends Fragment implements UserAdapter.OnItemClickListener,
-        SwipeRefreshLayout.OnRefreshListener, UserContract.View {
+        SwipeRefreshLayout.OnRefreshListener, UserContract.View, OnStartDragListener {
 
     private static final String TAG = "MainActivity";
     @BindView(R.id.recycler_view)
@@ -45,10 +51,20 @@ public class UserFragment extends Fragment implements UserAdapter.OnItemClickLis
     private UserAdapter mAdapter;
     private UserContract.Presenter mPresenter;
     private boolean isRefresh;
+    private List<User> mUsers = new ArrayList<>();
+    private ItemTouchHelper mItemTouchHelper;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
     }
 
     @Nullable
@@ -62,19 +78,18 @@ public class UserFragment extends Fragment implements UserAdapter.OnItemClickLis
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.addItemDecoration(new DefaultItemDecoration());
-        List<User> users = mPresenter.loadUsers();
-        if (users == null && users.size() == 0) {
-            mAdapter = new UserAdapter(getActivity());
-        } else {
-            mAdapter = new UserAdapter(getActivity(), users);
-        }
-        mAdapter.setOnItemClickListener(this);
+        mRecyclerView.addItemDecoration(new DividerDecoration());
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mAdapter = new UserAdapter(mUsers);
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(this);
+        mAdapter.setOnDragListener(this);
+        ItemTouchHelper.Callback callback = new ItemTouchCallback(mAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setColorSchemeColors(
@@ -82,8 +97,6 @@ public class UserFragment extends Fragment implements UserAdapter.OnItemClickLis
                 ContextCompat.getColor(getActivity(), R.color.colorAccent),
                 ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
         );
-
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -99,7 +112,7 @@ public class UserFragment extends Fragment implements UserAdapter.OnItemClickLis
 
     @Override
     public void onItemClick(int position, View view) {
-        mAdapter.removeItem(position);
+        showMessage(String.valueOf(position));
     }
 
     @Override
@@ -124,10 +137,15 @@ public class UserFragment extends Fragment implements UserAdapter.OnItemClickLis
                 mPresenter.clearData();
                 break;
             case R.id.menu_add:
-                mAdapter.addItem(mAdapter.getItemCount(), new User("李四", 22));
+                addUser(new User(mAdapter.getItemCount(), "王二小", 23));
                 break;
         }
         return true;
+    }
+
+    public void addUser(User user) {
+        mAdapter.insertItem(mAdapter.getItemCount(), user);
+        mPresenter.addUser(user);
     }
 
     @Override
@@ -146,7 +164,7 @@ public class UserFragment extends Fragment implements UserAdapter.OnItemClickLis
             @Override
             public void run() {
                 for (int i = 0; i < 2; i++) {
-                    mAdapter.addItem(i, new User("李四" + i, 22 + i));
+                    addUser(new User(mAdapter.getItemCount(), "李世民" + i, 22 + i));
                 }
                 swipeLayout.setRefreshing(false);
                 isRefresh = false;
@@ -156,12 +174,17 @@ public class UserFragment extends Fragment implements UserAdapter.OnItemClickLis
 
     @Override
     public void showUsers(@NonNull List<User> users) {
+        mUsers = users;
         mAdapter.setData(users);
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showMessage(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
     }
 }

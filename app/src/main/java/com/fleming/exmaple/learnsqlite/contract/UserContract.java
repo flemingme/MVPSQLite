@@ -23,6 +23,14 @@ public class UserContract {
 
     public interface Presenter extends BasePresenter {
 
+        boolean addUser(User user);
+
+        boolean removeUser(int id);
+
+        boolean modifyData(int id, User user);
+
+        User loadUser(int id);
+
         List<User> loadUsers();
 
         boolean releaseDB();

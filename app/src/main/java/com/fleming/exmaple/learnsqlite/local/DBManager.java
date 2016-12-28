@@ -38,10 +38,12 @@ public class DBManager implements DBOperateMethods {
 
     @Override
     public boolean insert(User user) {
+        final SQLiteDatabase db = mHelper.getWritableDatabase();
+
         ContentValues values = new ContentValues();
+        if (user.getId() != -1) values.put(DBContract.UserEntity.COLUMN_NAME_UESR_ID, user.getId());
         if (!TextUtils.isEmpty(user.getName())) values.put(DBContract.UserEntity.COLUMN_NAME_USER_NAME, user.getName());
         if (user.getAge() != 0) values.put(DBContract.UserEntity.COLUMN_NAME_USER_AGE, user.getAge());
-        final SQLiteDatabase db = mHelper.getWritableDatabase();
 
         long _id = db.insert(DBContract.UserEntity.TABLE_NAME, null, values);
 
@@ -52,9 +54,9 @@ public class DBManager implements DBOperateMethods {
 
     @Override
     public boolean delete(int userId) {
+        final SQLiteDatabase db = mHelper.getWritableDatabase();
         final String selection = DBContract.UserEntity.COLUMN_NAME_UESR_ID + "=?";
         final String[] selectionArgs = new String[]{String.valueOf(userId)};
-        final SQLiteDatabase db = mHelper.getWritableDatabase();
         Cursor query = mHelper.getReadableDatabase().query(DBContract.UserEntity.TABLE_NAME, null, selection, selectionArgs, null, null, null);
         int _id = 0;
         if (query.getCount() > 0) {
@@ -69,9 +71,9 @@ public class DBManager implements DBOperateMethods {
 
     @Override
     public boolean update(int userId, User user) {
+        final SQLiteDatabase db = mHelper.getWritableDatabase();
         final String selection = DBContract.UserEntity.COLUMN_NAME_UESR_ID + "=?";
         final String[] selectionArgs = new String[]{String.valueOf(userId)};
-        final SQLiteDatabase db = mHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         if (!TextUtils.isEmpty(user.getName())) values.put(DBContract.UserEntity.COLUMN_NAME_USER_NAME, user.getName());
@@ -91,9 +93,9 @@ public class DBManager implements DBOperateMethods {
 
     @Override
     public User selectById(int userId) {
+        final SQLiteDatabase db = mHelper.getReadableDatabase();
         final String selection = DBContract.UserEntity.COLUMN_NAME_UESR_ID + "=?";
         final String[] selectionArgs = new String[]{String.valueOf(userId)};
-        final SQLiteDatabase db = mHelper.getReadableDatabase();
 
         Cursor cursor = db.query(DBContract.UserEntity.TABLE_NAME, null, selection, selectionArgs, null, null, null);
         cursor.moveToFirst();
@@ -132,6 +134,16 @@ public class DBManager implements DBOperateMethods {
     }
 
     @Override
+    public boolean deleteAll() {
+        final SQLiteDatabase db = mHelper.getWritableDatabase();
+        int _id = db.delete(DBContract.UserEntity.TABLE_NAME, null, null);
+
+        db.close();
+
+        return _id > 0;
+    }
+
+    @Override
     public boolean release() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
         if (db.isOpen()) {
@@ -139,15 +151,5 @@ public class DBManager implements DBOperateMethods {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public boolean deleteAll() {
-        SQLiteDatabase db = mHelper.getWritableDatabase();
-        int _id = db.delete(DBContract.UserEntity.TABLE_NAME, null, null);
-
-        db.close();
-
-        return _id > 0;
     }
 }

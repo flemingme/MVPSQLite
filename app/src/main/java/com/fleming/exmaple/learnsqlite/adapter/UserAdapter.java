@@ -1,8 +1,11 @@
 package com.fleming.exmaple.learnsqlite.adapter;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,6 +14,8 @@ import android.widget.TextView;
 import com.fleming.exmaple.learnsqlite.R;
 import com.fleming.exmaple.learnsqlite.local.User;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,19 +23,31 @@ import java.util.List;
  * Created by Fleming on 2016/12/16.
  */
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>
+        implements ItemTouchHelperAdapter {
 
-    private final LayoutInflater mInflater;
     private List<User> mUsers;
-    private static OnItemClickListener slistener;
+    private OnItemClickListener itemClickListener;
+    private OnStartDragListener dragListener;
 
-    public UserAdapter(Context c) {
-        mInflater = LayoutInflater.from(c);
+    public UserAdapter(@NonNull List<User> users) {
+        mUsers = (users != null ? users : new ArrayList<User>());
     }
 
-    public UserAdapter(Context c, List<User> users) {
-        mInflater = LayoutInflater.from(c);
-        setData(users);
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView ivLogo;
+        private TextView tvName;
+        private TextView tvAge;
+        private View itemView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ivLogo = (ImageView) itemView.findViewById(R.id.iv_logo);
+            tvName = (TextView) itemView.findViewById(R.id.tv_name);
+            tvAge = (TextView) itemView.findViewById(R.id.tv_age);
+            this.itemView = itemView;
+        }
     }
 
     public void setData(List<User> data) {
@@ -40,74 +57,77 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View root = mInflater.inflate(R.layout.item_user, parent, false);
+        View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false);
         return new ViewHolder(root);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.ivLogo.setImageResource(R.drawable.logo);
-        holder.tvName.setText(getItem(position).getName());
-        holder.tvAge.setText(String.valueOf(getItem(position).getAge()));
-    }
-
-    private User getItem(int position) {
-        return mUsers.size() != 0 ? mUsers.get(position) : null;
+        holder.tvName.setText(mUsers.get(position).getName());
+        holder.tvAge.setText(String.valueOf(mUsers.get(position).getAge()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemClickListener != null) {
+                    Log.d("chen", holder.getAdapterPosition() + "");
+                    itemClickListener.onItemClick(holder.getAdapterPosition(), v);
+                }
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (itemClickListener != null) {
+                    itemClickListener.onItemLongClick(holder.getAdapterPosition(), v);
+                }
+                return false;
+            }
+        });
+        holder.ivLogo.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                    dragListener.onStartDrag(holder);
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mUsers.size();
+        return mUsers != null ? mUsers.size() : 0;
     }
 
-    public void addItem(int position, User user) {
+    public void insertItem(int position, User user) {
         mUsers.add(position, user);
         notifyItemInserted(position);
     }
 
-    public void removeItem(int position) {
-        if (getItem(position) != null) {
-            mUsers.remove(position);
-            notifyDataSetChanged();
-        }
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(mUsers, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
-            View.OnLongClickListener {
-
-        private ImageView ivLogo;
-        private TextView tvName;
-        private TextView tvAge;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            ivLogo = (ImageView) itemView.findViewById(R.id.iv_logo);
-            tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            tvAge = (TextView) itemView.findViewById(R.id.tv_age);
-
-            itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            slistener.onItemClick(getLayoutPosition(), v);
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            slistener.onItemLongClick(getLayoutPosition(), v);
-            return true;
-        }
+    @Override
+    public void onItemDismiss(int position) {
+        mUsers.remove(position);
+        notifyItemRemoved(position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        slistener = listener;
+    public void setOnItemClickListener(@NonNull OnItemClickListener listener) {
+        itemClickListener = listener;
+    }
+
+    public void setOnDragListener(OnStartDragListener listener) {
+        dragListener = listener;
     }
 
     public interface OnItemClickListener {
         void onItemClick(int position, View view);
+
         void onItemLongClick(int position, View view);
     }
-
 }

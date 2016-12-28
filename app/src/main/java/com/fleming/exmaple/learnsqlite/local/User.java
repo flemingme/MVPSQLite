@@ -14,11 +14,6 @@ public class User {
     public User() {
     }
 
-    public User(String name, int age) {
-        this.name = name;
-        this.age = age;
-    }
-
     public User(int _id, String name, int age) {
         this._id = _id;
         this.name = name;

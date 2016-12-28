@@ -11,11 +11,11 @@ import android.view.View;
  * Created by Fleming on 2016/12/16.
  */
 
-public class DefaultItemDecoration extends RecyclerView.ItemDecoration {
+public class DividerDecoration extends RecyclerView.ItemDecoration {
 
     private Paint mPaint = new Paint();
 
-    public DefaultItemDecoration() {
+    public DividerDecoration() {
         mPaint.setAntiAlias(true);
         mPaint.setColor(Color.LTGRAY);
     }
