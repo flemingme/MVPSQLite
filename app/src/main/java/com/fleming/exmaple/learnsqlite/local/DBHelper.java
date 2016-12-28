@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 4;
 
     public DBHelper(Context c, String dbName) {
         super(c, dbName, null, DB_VERSION);
@@ -20,7 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sql = "CREATE TABLE " + DBContract.UserEntity.TABLE_NAME + "( "
-                + DBContract.UserEntity.COLUMN_NAME_UESR_ID + " INTEGER PRIMARY KEY NOT NULL, "
+                + DBContract.UserEntity.COLUMN_NAME_UESR_ID + " INTEGER PRIMARY KEY NULL, "
                 + DBContract.UserEntity.COLUMN_NAME_USER_NAME + " TEXT, "
                 + DBContract.UserEntity.COLUMN_NAME_USER_AGE +" INTEGER );";
         db.execSQL(sql);

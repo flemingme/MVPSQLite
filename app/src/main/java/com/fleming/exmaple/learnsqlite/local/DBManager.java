@@ -41,7 +41,7 @@ public class DBManager implements DBOperateMethods {
         final SQLiteDatabase db = mHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        if (user.getId() != -1) values.put(DBContract.UserEntity.COLUMN_NAME_UESR_ID, user.getId());
+        if (user.getId() != 0) values.put(DBContract.UserEntity.COLUMN_NAME_UESR_ID, user.getId());
         if (!TextUtils.isEmpty(user.getName())) values.put(DBContract.UserEntity.COLUMN_NAME_USER_NAME, user.getName());
         if (user.getAge() != 0) values.put(DBContract.UserEntity.COLUMN_NAME_USER_AGE, user.getAge());
 

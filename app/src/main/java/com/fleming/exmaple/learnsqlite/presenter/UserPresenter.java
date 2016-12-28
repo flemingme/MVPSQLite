@@ -1,7 +1,6 @@
 package com.fleming.exmaple.learnsqlite.presenter;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.fleming.exmaple.learnsqlite.contract.UserContract;
 import com.fleming.exmaple.learnsqlite.local.DBManager;
@@ -29,40 +28,13 @@ public class UserPresenter implements UserContract.Presenter {
         DBManager.getInstance().deleteAll();
         boolean flag = false;
         for (int i = 0; i < 5; i++) {
-            flag = DBManager.getInstance().insert(new User(i, "张三丰" + i, 20 + i));
+            flag = DBManager.getInstance().insert(new User(i+1, "张三丰" + i, 20 + i));
         }
 
         if (flag) {
-            mUserView.showMessage("5条数据插入成功");
+            mUserView.showMessage("数据初始化成功");
             mUserView.showUsers(loadUsers());
         }
-    }
-
-    @Override
-    public boolean addUser(User user) {
-        boolean flag = DBManager.getInstance().insert(user);
-        if (flag) {
-            Log.d("chen", "addUser: " + flag);
-            mUserView.showUsers(loadUsers());
-        }
-        return flag;
-    }
-
-    @Override
-    public boolean removeUser(int id) {
-        boolean flag = DBManager.getInstance().delete(id);
-        if (flag) {
-            Log.d("chen", "removeUser: " + flag);
-            mUserView.showUsers(loadUsers());
-        }
-        return flag;
-    }
-
-    @Override
-    public boolean modifyData(int id, User newUser) {
-        boolean flag = DBManager.getInstance().update(id, newUser);
-        if (flag) mUserView.showUsers(loadUsers());
-        return flag;
     }
 
     @Override

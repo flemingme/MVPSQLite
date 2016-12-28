@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fleming.exmaple.learnsqlite.R;
+import com.fleming.exmaple.learnsqlite.local.DBManager;
 import com.fleming.exmaple.learnsqlite.local.User;
 
 import java.util.ArrayList;
@@ -101,8 +102,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>
     }
 
     public void insertItem(int position, User user) {
-        mUsers.add(position, user);
-        notifyItemInserted(position);
+        if (user != null) {
+            DBManager.getInstance().insert(user);
+            mUsers.add(position, user);
+            notifyItemInserted(position);
+        }
     }
 
     @Override
@@ -113,8 +117,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>
 
     @Override
     public void onItemDismiss(int position) {
+        User user = mUsers.get(position);
+        Log.d("chen", position + "拖动删除" + " user:" + user.toString());
+        DBManager.getInstance().delete(user.getId());
         mUsers.remove(position);
         notifyItemRemoved(position);
+    }
+
+    public void modifyItem(int position) {
+        User user = mUsers.get(position);
+        user.setName("Lucy");
+        DBManager.getInstance().update(user.getId(), user);
+        notifyDataSetChanged();
     }
 
     public void setOnItemClickListener(@NonNull OnItemClickListener listener) {

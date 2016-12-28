@@ -78,6 +78,7 @@ public class UserFragment extends Fragment implements UserAdapter.OnItemClickLis
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //设置列表展示
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setHasFixedSize(true);
@@ -87,6 +88,8 @@ public class UserFragment extends Fragment implements UserAdapter.OnItemClickLis
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
         mAdapter.setOnDragListener(this);
+
+        //设置item拖拽和滑出
         ItemTouchHelper.Callback callback = new ItemTouchCallback(mAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
@@ -117,7 +120,7 @@ public class UserFragment extends Fragment implements UserAdapter.OnItemClickLis
 
     @Override
     public void onItemLongClick(int position, View view) {
-
+        mAdapter.modifyItem(position);
     }
 
     @Override
@@ -137,15 +140,11 @@ public class UserFragment extends Fragment implements UserAdapter.OnItemClickLis
                 mPresenter.clearData();
                 break;
             case R.id.menu_add:
-                addUser(new User(mAdapter.getItemCount(), "王二小", 23));
+                mAdapter.insertItem(mAdapter.getItemCount(), new User(mAdapter.getItemCount() + 1, "王二小", 23));
+                mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
                 break;
         }
         return true;
-    }
-
-    public void addUser(User user) {
-        mAdapter.insertItem(mAdapter.getItemCount(), user);
-        mPresenter.addUser(user);
     }
 
     @Override
@@ -164,8 +163,9 @@ public class UserFragment extends Fragment implements UserAdapter.OnItemClickLis
             @Override
             public void run() {
                 for (int i = 0; i < 2; i++) {
-                    addUser(new User(mAdapter.getItemCount(), "李世民" + i, 22 + i));
+                    mAdapter.insertItem(mAdapter.getItemCount(), new User(mAdapter.getItemCount() + 1, "李世民", 33));
                 }
+                mRecyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
                 swipeLayout.setRefreshing(false);
                 isRefresh = false;
             }
