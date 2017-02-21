@@ -5,7 +5,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "25.0.1"
     defaultConfig {
-        applicationId "com.fleming.exmaple.learnsqlite"
+        applicationId "com.fleming.exmaple.mvpsqlite"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1

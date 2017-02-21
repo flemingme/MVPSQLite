@@ -1,4 +1,4 @@
-package com.fleming.exmaple.learnsqlite.view;
+package com.fleming.exmaple.mvpsqlite.view;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,13 +21,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.fleming.exmaple.learnsqlite.R;
-import com.fleming.exmaple.learnsqlite.adapter.DividerDecoration;
-import com.fleming.exmaple.learnsqlite.adapter.ItemTouchCallback;
-import com.fleming.exmaple.learnsqlite.adapter.OnStartDragListener;
-import com.fleming.exmaple.learnsqlite.adapter.UserAdapter;
-import com.fleming.exmaple.learnsqlite.contract.UserContract;
-import com.fleming.exmaple.learnsqlite.local.User;
+import com.fleming.exmaple.mvpsqlite.R;
+import com.fleming.exmaple.mvpsqlite.adapter.DividerDecoration;
+import com.fleming.exmaple.mvpsqlite.adapter.ItemTouchCallback;
+import com.fleming.exmaple.mvpsqlite.adapter.OnStartDragListener;
+import com.fleming.exmaple.mvpsqlite.adapter.UserAdapter;
+import com.fleming.exmaple.mvpsqlite.contract.UserContract;
+import com.fleming.exmaple.mvpsqlite.local.User;
 
 import java.util.ArrayList;
 import java.util.List;

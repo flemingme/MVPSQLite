@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Paul Burke
+ * Copyright 2016, The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,10 @@
  * limitations under the License.
  */
 
-package com.fleming.exmaple.learnsqlite.adapter;
+package com.fleming.exmaple.mvpsqlite.base;
 
-import android.support.v7.widget.RecyclerView;
+public interface BasePresenter {
 
-/**
- * Listener for manual initiation of a drag.
- */
-public interface OnStartDragListener {
-
-    /**
-     * Called when a view is requesting a start of a drag.
-     *
-     * @param viewHolder The holder of the view to drag.
-     */
-    void onStartDrag(RecyclerView.ViewHolder viewHolder);
+    void start();
 
 }

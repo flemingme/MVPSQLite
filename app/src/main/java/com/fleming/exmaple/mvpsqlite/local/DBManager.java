@@ -1,4 +1,4 @@
-package com.fleming.exmaple.learnsqlite.local;
+package com.fleming.exmaple.mvpsqlite.local;
 
 import android.content.ContentValues;
 import android.content.Context;

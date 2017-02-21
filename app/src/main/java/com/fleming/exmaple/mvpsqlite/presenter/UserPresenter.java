@@ -1,10 +1,10 @@
-package com.fleming.exmaple.learnsqlite.presenter;
+package com.fleming.exmaple.mvpsqlite.presenter;
 
 import android.support.annotation.NonNull;
 
-import com.fleming.exmaple.learnsqlite.contract.UserContract;
-import com.fleming.exmaple.learnsqlite.local.DBManager;
-import com.fleming.exmaple.learnsqlite.local.User;
+import com.fleming.exmaple.mvpsqlite.contract.UserContract;
+import com.fleming.exmaple.mvpsqlite.local.DBManager;
+import com.fleming.exmaple.mvpsqlite.local.User;
 
 import java.util.ArrayList;
 import java.util.List;

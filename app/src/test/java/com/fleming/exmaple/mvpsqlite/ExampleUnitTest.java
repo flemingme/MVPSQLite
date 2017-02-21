@@ -1,4 +1,4 @@
-package com.fleming.exmaple.learnsqlite;
+package com.fleming.exmaple.mvpsqlite;
 
 import org.junit.Test;
 

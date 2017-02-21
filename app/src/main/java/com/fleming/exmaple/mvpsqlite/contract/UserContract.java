@@ -1,8 +1,8 @@
-package com.fleming.exmaple.learnsqlite.contract;
+package com.fleming.exmaple.mvpsqlite.contract;
 
-import com.fleming.exmaple.learnsqlite.base.BasePresenter;
-import com.fleming.exmaple.learnsqlite.base.BaseView;
-import com.fleming.exmaple.learnsqlite.local.User;
+import com.fleming.exmaple.mvpsqlite.base.BasePresenter;
+import com.fleming.exmaple.mvpsqlite.base.BaseView;
+import com.fleming.exmaple.mvpsqlite.local.User;
 
 import java.util.List;
 

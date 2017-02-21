@@ -1,4 +1,4 @@
-package com.fleming.exmaple.learnsqlite.base;
+package com.fleming.exmaple.mvpsqlite.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.fleming.exmaple.learnsqlite.R;
+import com.fleming.exmaple.mvpsqlite.R;
 
 /**
  * BaseActivity

@@ -1,4 +1,4 @@
-package com.fleming.exmaple.learnsqlite.adapter;
+package com.fleming.exmaple.mvpsqlite.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;

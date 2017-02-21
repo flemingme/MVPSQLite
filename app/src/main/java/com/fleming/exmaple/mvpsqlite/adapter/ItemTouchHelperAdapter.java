@@ -1,4 +1,4 @@
-package com.fleming.exmaple.learnsqlite.adapter;
+package com.fleming.exmaple.mvpsqlite.adapter;
 
 /**
  * ItemTouchHelperAdapter

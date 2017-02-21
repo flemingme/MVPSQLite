@@ -1,8 +1,8 @@
-package com.fleming.exmaple.learnsqlite.base;
+package com.fleming.exmaple.mvpsqlite.base;
 
 import android.app.Application;
 
-import com.fleming.exmaple.learnsqlite.local.DBManager;
+import com.fleming.exmaple.mvpsqlite.local.DBManager;
 
 /**
  * Created by Fleming on 2016/12/13.

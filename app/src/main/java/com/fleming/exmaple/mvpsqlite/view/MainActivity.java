@@ -1,10 +1,10 @@
-package com.fleming.exmaple.learnsqlite.view;
+package com.fleming.exmaple.mvpsqlite.view;
 
 import android.support.v4.app.Fragment;
 
-import com.fleming.exmaple.learnsqlite.R;
-import com.fleming.exmaple.learnsqlite.base.BaseActivity;
-import com.fleming.exmaple.learnsqlite.presenter.UserPresenter;
+import com.fleming.exmaple.mvpsqlite.R;
+import com.fleming.exmaple.mvpsqlite.base.BaseActivity;
+import com.fleming.exmaple.mvpsqlite.presenter.UserPresenter;
 
 public class MainActivity extends BaseActivity {
 

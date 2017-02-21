@@ -1,4 +1,4 @@
-package com.fleming.exmaple.learnsqlite;
+package com.fleming.exmaple.mvpsqlite;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

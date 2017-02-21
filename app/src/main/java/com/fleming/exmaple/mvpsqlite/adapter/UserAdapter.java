@@ -1,4 +1,4 @@
-package com.fleming.exmaple.learnsqlite.adapter;
+package com.fleming.exmaple.mvpsqlite.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v4.view.MotionEventCompat;
@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fleming.exmaple.learnsqlite.R;
-import com.fleming.exmaple.learnsqlite.local.DBManager;
-import com.fleming.exmaple.learnsqlite.local.User;
+import com.fleming.exmaple.mvpsqlite.R;
+import com.fleming.exmaple.mvpsqlite.local.DBManager;
+import com.fleming.exmaple.mvpsqlite.local.User;
 
 import java.util.ArrayList;
 import java.util.Collections;

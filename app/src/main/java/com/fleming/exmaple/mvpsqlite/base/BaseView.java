@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fleming.exmaple.learnsqlite.base;
+package com.fleming.exmaple.mvpsqlite.base;
 
 public interface BaseView<T> {
 
