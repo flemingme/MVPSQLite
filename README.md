@@ -1,6 +1,4 @@
-原文地址：https://flemingme.github.io/2017/02/17/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/
-
-如何创建和使用SQLite数据库呢？
+[如何创建和使用SQLite数据库呢？](https://flemingme.github.io/2017/02/17/%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8SQLite%E6%95%B0%E6%8D%AE%E5%BA%93/)
 
 **1.创建类继承SQLiteOpenHelper，并重写onCreate和onUpgrade方法。**
 
