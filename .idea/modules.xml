@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LearnSQLite.iml" filepath="$PROJECT_DIR$/LearnSQLite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MVPSQLite.iml" filepath="$PROJECT_DIR$/MVPSQLite.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
